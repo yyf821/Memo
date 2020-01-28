@@ -2,6 +2,7 @@ package com.example.memo;
 
 import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,9 +42,7 @@ public class EditActivity extends AppCompatActivity {
         btn = (Button) findViewById(R.id.button);
         edit = (Button) findViewById(R.id.editbtn);
 
-        //通过Activity.getIntent()获取当前页面接收到的Intent。
         Intent intent = getIntent();
-        //getXxxExtra方法获取Intent传递过来的数据
         String msg = intent.getStringExtra("data");
 
         dbHelper = new DatabaseHelper(getApplicationContext());
@@ -94,6 +94,8 @@ public class EditActivity extends AppCompatActivity {
                 alert.show();
             }
         });
+
+
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,5 +134,6 @@ public class EditActivity extends AppCompatActivity {
             Toast.makeText(EditActivity.this, "SQL error happened:\n" + e.toString(), Toast.LENGTH_SHORT).show();
         }
     }
+
 
 }

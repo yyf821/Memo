@@ -1,5 +1,6 @@
 package com.example.memo;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +78,8 @@ public class MyAdapter extends BaseAdapter {
         String time = "";
         boolean isWeek = false;
         String[] weeklist = week();
-        String date = memo.getDate();
+        String date = memo.getDate();//yyyy-MM-dd HH:mm:ss
+
         Calendar now = Calendar.getInstance();
         int currentYear = now.get(Calendar.YEAR);
         int memoyear = Integer.parseInt(date.substring(0, 4));
@@ -88,13 +90,13 @@ public class MyAdapter extends BaseAdapter {
                 if (s.equals(memodate)) {
                     switch (i) {
                         case 0:
-                            time = date.substring(11,16);//mm:ss
+                            time = date.substring(11,16);//today
                             break;
                         case 1:
                             time = "yesterday";
                             break;
                         default:
-                            time = weeklist[i].substring(11);//MON, TUE...
+                            time = weeklist[i].substring(20);//MON, TUE...
 
                     }
                     isWeek = true;
@@ -110,22 +112,17 @@ public class MyAdapter extends BaseAdapter {
         return time;
     }
 
-    public static String getPastTime(Date today, int number) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(today);
-        calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) - number);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/E");
-        String time = sdf.format(calendar.getTime());
-        return time;
-    }
-
     public static String[] week() {
-        int size = 7;
-        String[] weekList = new String[size];
-        Date today = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss E");
+        Calendar c = Calendar.getInstance();
+        String[] weekList =new String[7];
         for (int i = 0; i < 7; i++) {
-            String time = getPastTime(today, i);
-            weekList[i] = time;
+            //过去七天
+            c.setTime(new Date());
+            c.add(Calendar.DATE, - i);
+            Date d = c.getTime();
+            String day = format.format(d);
+            weekList[i] = day;
         }
         return weekList;
     }

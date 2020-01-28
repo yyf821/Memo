@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "starbuzz";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
 
     DatabaseHelper(Context context){
         super(context, DB_NAME, null, DB_VERSION);
@@ -30,6 +30,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     + "NAME TEXT, "
                     + "BODY TEXT, "
                     + "TIME TEXT);");
+        }
+        if (oldVersion < 2) {
+            insertMemo(db,"aa","111","1999/12/21 11:22:33");
+            insertMemo(db,"bb","222","2020/01/21 01:22:33");
+            insertMemo(db,"cc","asdfghjkl;","2020/01/27 01:22:33");
         }
     }
     private static void insertMemo(SQLiteDatabase db, String name,
